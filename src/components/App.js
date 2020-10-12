@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
 import Footer from "./Footer";
@@ -12,7 +13,7 @@ TodoList组件：传递当前过滤下该展示的列表、监听toggleTodo事�
 Footer：传递当前过滤项、监听切换过滤setVisibilityFilter事件，参数来自点击附带的参数
 */
 
-let nextTodoId = 0;
+// let nextTodoId = 0;
 export const VisibilityFilters = {
   SHOW_ALL: "SHOW_ALL",// 全部
   SHOW_COMPLETED: "SHOW_COMPLETED",// 已完成
@@ -35,13 +36,13 @@ const getVisibleTodos = (todos, filter) => {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      todos: [],// 全部事项
-      filter: VisibilityFilters.SHOW_ALL// 过滤关键字
-    };
+    // this.state = {
+    //   todos: [],// 全部事项
+    //   filter: VisibilityFilters.SHOW_ALL// 过滤关键字
+    // };
 
     this.toggleTodo = this.toggleTodo.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    //this.onSubmit = this.onSubmit.bind(this);
     this.setVisibilityFilter = this.setVisibilityFilter.bind(this);
   }
 
@@ -57,18 +58,18 @@ class App extends React.Component {
   }
 
   // 添加事项
-  onSubmit(value) {
-    this.setState({
-      todos: [
-        ...this.state.todos,
-        {
-          id: nextTodoId++,
-          text: value,
-          completed: false
-        }
-      ]
-    });
-  }
+  // onSubmit(value) {
+  //   this.setState({
+  //     todos: [
+  //       ...this.state.todos,
+  //       {
+  //         id: nextTodoId++,
+  //         text: value,
+  //         completed: false
+  //       }
+  //     ]
+  //   });
+  // }
 
   // 切换过滤类型
   setVisibilityFilter(filter) {
@@ -78,10 +79,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { todos, filter } = this.state;
+    const { todos, filter } = this.props;
     return (
       <div>
-        <AddTodo onSubmit={this.onSubmit} />
+        <AddTodo />
         <TodoList
           todos={getVisibleTodos(todos, filter)}
           toggleTodo={this.toggleTodo}
@@ -95,4 +96,12 @@ class App extends React.Component {
   }
 }
 
-export default App;
+// mapStateToProps同时操作组件的原 props 和 Store 的状态，然后合并成最终的组件 props
+const mapStateToProps = (state, props) => ({
+  todos: state.todos,
+  filter: state.filter
+});
+  
+// 获取 mapStateProps 返回的最终组合后的状态，然后将其注入到 App 组件中，返回一个新的组件
+export default connect(mapStateToProps)(App);
+
