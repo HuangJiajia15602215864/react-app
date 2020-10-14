@@ -1,6 +1,12 @@
 // Action Creators
 let nextTodoId = 0;
 
+export const VisibilityFilters = {
+    SHOW_ALL: "SHOW_ALL", // 全部
+    SHOW_COMPLETED: "SHOW_COMPLETED", // 已完成
+    SHOW_ACTIVE: "SHOW_ACTIVE" // 未完成
+};
+
 // 添加事项
 export const addTodo = text => ({
     type: "ADD_TODO",
@@ -18,4 +24,4 @@ export const toggleTodo = id => ({
 export const setVisibilityFilter = filter => ({
     type: "SET_VISIBILITY_FILTER",
     filter
-  });
+});
